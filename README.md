@@ -38,5 +38,5 @@ CREATE TABLE IF NOT EXISTS `employees` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 REPLACE INTO `employees` (`id`, `full_name`) VALUES
-	(1, 'Matúš Rosa');
+	(1, 'Tester Testovač');
 ```
