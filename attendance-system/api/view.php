@@ -72,11 +72,11 @@ foreach ($records as $record)
             break;
     }
         
-        echo('        <tr>\n');
-        echo('            <td>$full_name</td>\n');
-        echo('            <td>$time</td>\n');
-        echo('            <td>$chip_type</td>\n');
-        echo('        </tr>\n');
+        echo("        <tr>\n");
+        echo("            <td>$full_name</td>\n");
+        echo("            <td>$time</td>\n");
+        echo("            <td>$chip_type</td>\n");
+        echo("        </tr>\n");
 
     }
 ?>
