@@ -2,8 +2,8 @@
 Školský projekt k firme Webkári s.r.o.
 
 ## Inštalácia
-Na spojadznenie budete potrebovať webový server, ktorý podporuje php (napríklad Apache) a taktiež databázový server, ktorý podporuje MariaDB.
-Skopírujte priečinok `attendance-system` do priečinku s web stránkami na vašom serveri.
+Na spojazdnenie budete potrebovať webový server, ktorý podporuje php (napríklad Apache) a taktiež databázový server, ktorý podporuje MariaDB.
+Skopírujte priečinok `attendance-system` do priečinku s web stránkami na vašom webovom serveri.
 Spustite tento sql príkaz vo vašom databázovom klientovi, ktorý vytvorí potrebné tabuľky a dáta:
 ```sql
 CREATE DATABASE IF NOT EXISTS `school`;
