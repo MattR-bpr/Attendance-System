@@ -50,7 +50,8 @@ foreach ($records as $record)
     $time = $record['time'];
     $chip_type = $record['chip-type'];
 
-    switch ($chip_type) {
+    switch ($chip_type)
+    {
         case 'arrival':
             $chip_type = 'príchod';
             break;
