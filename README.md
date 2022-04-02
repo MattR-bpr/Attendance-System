@@ -40,3 +40,6 @@ CREATE TABLE IF NOT EXISTS `employees` (
 REPLACE INTO `employees` (`id`, `full_name`) VALUES
 	(1, 'Tester Testovač');
 ```
+
+## Náhľad
+![preview](https://user-images.githubusercontent.com/54020396/161379557-c275a204-8093-43c7-bd81-3491ad89587e.png)
