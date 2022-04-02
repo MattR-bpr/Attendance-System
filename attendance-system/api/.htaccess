@@ -1,0 +1,6 @@
+Order deny,allow
+Deny from all
+
+<FilesMatch "chip.php|view.php">
+    Allow from all
+</FilesMatch>
