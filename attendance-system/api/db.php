@@ -139,6 +139,26 @@ class Database
 
         $q->free_result();
     }
+
+    public function ConvertChipType($chip_type){
+        switch ($chip_type) {
+            case 'arrival':
+                return 'príchod';
+                break;
+
+            case 'departure':
+                return 'odchod';
+                break;
+
+            case 'lunch':
+                return 'obedná prestávka';
+                break;
+
+            case 'break':
+                return 'prestávka';
+                break;
+        }
+    }
 }
 
 ?>
