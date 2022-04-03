@@ -48,9 +48,7 @@ foreach ($records as $record)
 {
     $full_name = $record['full-name'];
     $time = $record['time'];
-    $chip_type = $record['chip-type'];
-
-    $db->ConvertChipType($chip_type);
+    $chip_type = $db->ConvertChipType($record['chip-type']);
     
     echo("        <tr>\n");
     echo("            <td>$full_name</td>\n");
