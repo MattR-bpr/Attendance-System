@@ -95,7 +95,7 @@ class Database
     {
         $full_name = $this->db->real_escape_string($full_name);
         $chip_type = $this->db->real_escape_string($chip_type);
-        
+
         $q = $this->db->query("SELECT CURRENT_TIMESTAMP AS 'time';");
         $current_date = $q->fetch_assoc();
         $current_date = explode(' ', $current_date['time'], 2);
@@ -112,35 +112,33 @@ class Database
 
         $q = $this->db->query($query);
         $db_response = $q->fetch_assoc();
-        
-        
-        if($db_response === null and $chip_type === 'arrival')
-            return 'success';
-        elseif($db_response !== null)
-            if(($chip_type === 'lunch' or $chip_type === 'break') and $db_response['chip-type'] === 'departure')
-                return 'empty';
-            else{}
-        else 
+
+
+        if ($db_response === null and $chip_type === 'arrival')
+        return 'success';
+        elseif ($db_response !== null)
+            if (($chip_type === 'lunch' or $chip_type === 'break') and $db_response['chip-type'] === 'departure')
+            return 'empty';
+            else {
+            }
+        else
             return 'empty';
 
         $db_response_time = explode(' ', $db_response['time'], 2);
-   
-        if(strcmp($db_response['chip-type'], $chip_type) !== 0) 
-        {   
-            if(strcmp($db_response_time[0], $current_date[0]) == 0)
-            {
-                if(strcmp($db_response_time[1], $current_date[1]) !== 0) 
+
+        if (strcmp($db_response['chip-type'], $chip_type) !== 0) {
+            if (strcmp($db_response_time[0], $current_date[0]) == 0) {
+                if (strcmp($db_response_time[1], $current_date[1]) !== 0)
                     return 'success';
-                else 
+                else
                     return 'failed';
-            } 
-            else 
+            } else
                 return 'failed';
-        } 
-        else
+        } else
             return 'failed';
-       
+
         $q->free_result();
     }
-
 }
+
+?>
