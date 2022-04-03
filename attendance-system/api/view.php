@@ -1,6 +1,6 @@
 <?php
 
-// pripojenie na databazu
+// pripojenia na databazu
 require_once 'db.php';
 $db = new Database();
 
@@ -49,25 +49,6 @@ foreach ($records as $record)
     $full_name = $record['full-name'];
     $time = $record['time'];
     $chip_type = $record['chip-type'];
-
-    switch ($chip_type)
-    {
-    case 'arrival':
-        $chip_type = 'príchod';
-        break;
-
-    case 'departure':
-        $chip_type = 'odchod';
-        break;
-
-    case 'lunch':
-        $chip_type = 'obedná prestávka';
-        break;
-
-    case 'break':
-        $chip_type = 'prestávka';
-        break;
-    }
     
     echo("        <tr>\n");
     echo("            <td>$full_name</td>\n");

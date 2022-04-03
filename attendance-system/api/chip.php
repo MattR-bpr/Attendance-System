@@ -29,7 +29,25 @@ if (!(
 }
 
 // zapisanie do databazy
-$db->Chip($_POST['full-name'], $_POST['chip-type']);
-echo('boli ste čipnutý');
+$response = $db->EliminateDuplicates($_POST['full-name'], $_POST['chip-type']);
+if($response == 'success')
+{
+    $db->Chip($_POST['full-name'], $_POST['chip-type']);
+    echo('boli ste čipnutý');
+}
+elseif($response === 'empty')
+{
+    echo('<strong>VAROVANIE: </strong>');
+    echo('Nie ste v praći! <br/> Očakávané čipuntie príchodu!');
+}
+elseif($response === 'failed'){
+    echo('<strong>VAROVANIE: </strong> Akcia ');
+    echo($_POST['chip-type']);
+    echo(' nemôže byť vykonaná! <br/>');
+}
+else{
+    echo('<strong>CHYBA: </strong> Neznáma chyba! <br/>');
+}
+
 
 ?>
