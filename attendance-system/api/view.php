@@ -1,6 +1,6 @@
 <?php
 
-// pripojenia na databazu
+// pripojenie na databazu
 require_once 'db.php';
 $db = new Database();
 
@@ -52,34 +52,30 @@ foreach ($records as $record)
 
     switch ($chip_type)
     {
-        case 'arrival':
-            $chip_type = 'príchod';
-            break;
+    case 'arrival':
+        $chip_type = 'príchod';
+        break;
 
-        case 'departure':
-            $chip_type = 'odchod';
-            break;
+    case 'departure':
+        $chip_type = 'odchod';
+        break;
 
-        case 'lunch':
-            $chip_type = 'obedná prestávka';
-            break;
+    case 'lunch':
+        $chip_type = 'obedná prestávka';
+        break;
 
-        case 'break':
-            $chip_type = 'prestávka';
-            break;
-
-        default:
-            $chip_type = 'INVALID TYPE. CHECK YOUR DATABASE!';
-            break;
+    case 'break':
+        $chip_type = 'prestávka';
+        break;
     }
-        
-        echo("        <tr>\n");
-        echo("            <td>$full_name</td>\n");
-        echo("            <td>$time</td>\n");
-        echo("            <td>$chip_type</td>\n");
-        echo("        </tr>\n");
+    
+    echo("        <tr>\n");
+    echo("            <td>$full_name</td>\n");
+    echo("            <td>$time</td>\n");
+    echo("            <td>$chip_type</td>\n");
+    echo("        </tr>\n");
+}
 
-    }
 ?>
 
     </tbody>
