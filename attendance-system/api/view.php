@@ -1,9 +1,3 @@
-<?php
-
-// pripojenia na databazu
-require_once 'db.php';
-$db = new Database();
-
 // validacia mena
 if (!(
     isset($_POST['full-name']) &&
@@ -15,7 +9,6 @@ if (!(
     echo('<strong>CHYBA: </strong> nevalidné meno alebo zamestnanec neexistuje');
     exit(1);
 }
-
 // validacia datumu
 if (!(
     isset($_POST['date']) &&
@@ -27,9 +20,7 @@ if (!(
     echo('<strong>CHYBA: </strong> nevalidný formát dátumu');
     exit(1);
 }
-
 ?>
-
 <table>
     <thead>
         <tr>
@@ -39,9 +30,7 @@ if (!(
         </tr>
     </thead>
     <tbody>
-
 <?php
-
 // vypisanie zaznamov o zamestnancovi
 $records = $db->GetRecords($_POST['full-name'], $_POST['date']);
 foreach ($records as $record)
@@ -49,15 +38,32 @@ foreach ($records as $record)
     $full_name = $record['full-name'];
     $time = $record['time'];
     $chip_type = $record['chip-type'];
-    
+
+    switch ($chip_type)
+    {
+    case 'arrival':
+        $chip_type = 'príchod';
+        break;
+
+    case 'departure':
+        $chip_type = 'odchod';
+        break;
+
+    case 'lunch':
+        $chip_type = 'obedná prestávka';
+        break;
+
+    case 'break':
+        $chip_type = 'prestávka';
+        break;
+    }
+
     echo("        <tr>\n");
     echo("            <td>$full_name</td>\n");
     echo("            <td>$time</td>\n");
     echo("            <td>$chip_type</td>\n");
     echo("        </tr>\n");
 }
-
 ?>
-
     </tbody>
 </table>
