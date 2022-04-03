@@ -38,7 +38,7 @@ if ($response == 'success') {
     echo ('Nie ste v praći! <br/> Očakávané čipuntie príchodu!');
 } elseif ($response === 'failed') {
     echo ('<strong>VAROVANIE: </strong> Akcia ');
-    echo ($_POST['chip-type']);
+    echo ($db->ConvertChipType($_POST['chip-type']));
     echo (' nemôže byť vykonaná! <br/>');
 } else {
     echo ('<strong>CHYBA: </strong> Neznáma chyba! <br/>');
