@@ -45,4 +45,4 @@ REPLACE INTO `employees` (`id`, `full_name`) VALUES
 ![preview](https://user-images.githubusercontent.com/54020396/161595651-64e72b8a-1080-4c11-a96c-895d8c8d44f7.png)
 
 ## Poznámky
-Ak máte problém pripojiť sa k Vašej lokálnej databáze, tak skontrolujte prihlasovacie údaje ![tu](https://github.com/MattR-bpr/Attendance-System/blob/main/attendance-system/api/db.php#L9)
+Ak máte problém pripojiť sa k Vašej lokálnej databáze, tak skontrolujte prihlasovacie údaje [tu](https://github.com/MattR-bpr/Attendance-System/blob/main/attendance-system/api/db.php#L9)
