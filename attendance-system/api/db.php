@@ -6,11 +6,10 @@ class Database
 
     public function __construct()
     {
-        $credentials = json_decode(file_get_contents('credentials.json'));
-        $host = $credentials->host;
-        $user = $credentials->user;
-        $password = $credentials->password;
-        $database = $credentials->database;
+        $host = 'localhost';
+        $user = 'root';
+        $password = '';
+        $database = 'school';
         
         $this->db = new mysqli($host, $user, $password, $database);
         $this->db->set_charset('utf8mb4');
@@ -21,29 +20,30 @@ class Database
         $this->db->close();
     }
 
-    public function Chip($full_name, $chip_type)
+    public function GetEmployees()
     {
-        $full_name = $this->db->real_escape_string($full_name);
-        $chip_type = $this->db->real_escape_string($chip_type);
-        
-        $query = "INSERT INTO attendance_system
-            (`employee_id`, `chip_type_id`)
-        VALUES
-            (
-                (SELECT `id` FROM employees WHERE LOWER(`full_name`) = LOWER('$full_name')),
-                (SELECT `id` FROM chip_types WHERE LOWER(`value`) = LOWER('$chip_type'))
-            );
-        ";
-        $this->db->query($query);
+        $query = "SELECT
+            `id` as `id`,
+            `full_name` as `name`
+        FROM employees
+        ORDER BY `full_name`;";
+
+        $q = $this->db->query($query);
+        $employees = [];
+        while ($employee = $q->fetch_assoc())
+            $employees[] = $employee;
+        $q->free_result();
+
+        return $employees;
     }
 
-    public function EmployeeExists($full_name)
+    public function EmployeeExists($id)
     {
-        $full_name = $this->db->real_escape_string($full_name);
+        $id = $this->db->real_escape_string($id);
         
         $query = "SELECT COUNT(*) AS `count`
         FROM employees
-        WHERE LOWER(`full_name`) = LOWER('$full_name');";
+        WHERE `id` = '$id';";
 
         $q = $this->db->query($query);
         $result = $q->fetch_assoc();
@@ -52,13 +52,30 @@ class Database
         return $result['count'] > 0;
     }
 
-    public function ChipTypeExists($chip_type)
+    public function GetChipTypes()
     {
-        $chip_type = $this->db->real_escape_string($chip_type);
+        $query = "SELECT
+            `id` as `id`,
+            `value` as `type`
+        FROM chip_types
+        ORDER BY `value`;";
+
+        $q = $this->db->query($query);
+        $types = [];
+        while ($type = $q->fetch_assoc())
+            $types[] = $type;
+        $q->free_result();
+
+        return $types;
+    }
+
+    public function ChipTypeExists($id)
+    {
+        $id = $this->db->real_escape_string($id);
         
         $query = "SELECT COUNT(*) AS `count`
         FROM chip_types
-        WHERE LOWER(`value`) = LOWER('$chip_type');";
+        WHERE `id` = '$id';";
 
         $q = $this->db->query($query);
         $result = $q->fetch_assoc();
@@ -67,19 +84,55 @@ class Database
         return $result['count'] > 0;
     }
 
-    public function GetRecords($full_name, $date)
+    public function GetLastChipType($employee_id)
     {
-        $full_name = $this->db->real_escape_string($full_name);
+        $employee_id = $this->db->real_escape_string($employee_id);
+
+        $query = "SELECT chip_type_id AS `type`
+        FROM attendance_system
+        WHERE employee_id = $employee_id
+        ORDER BY chip_time DESC
+        LIMIT 1;";
+
+        $q = $this->db->query($query);
+        $result = $q->fetch_assoc();
+        $q->free_result();
+
+        return $result ? $result['type'] : null;
+    }
+
+    public function Chip($employee_id, $chip_type_id)
+    {
+        $employee_id = $this->db->real_escape_string($employee_id);
+        $chip_type_id = $this->db->real_escape_string($chip_type_id);
+        
+        $query = "INSERT INTO attendance_system
+        (
+            `employee_id`,
+            `chip_type_id`
+        )
+        VALUES
+        (
+            '$employee_id',
+            '$chip_type_id'
+        );";
+        
+        $this->db->query($query);
+    }
+
+    public function GetRecords($employee_id, $date)
+    {
+        $employee_id = $this->db->real_escape_string($employee_id);
         $date = $this->db->real_escape_string($date);
 
         $query = "SELECT
-            `full_name` AS `full-name`,
+            `full_name` AS `name`,
             `chip_time` AS `time`,
             `value` AS `chip-type`
         FROM attendance_system
             JOIN employees ON(attendance_system.`employee_id` = employees.`id`)
             JOIN chip_types ON(attendance_system.`chip_type_id` = chip_types.`id`)
-        WHERE DATE(`chip_time`) = '$date' AND LOWER(`full_name`) = LOWER('$full_name')
+        WHERE DATE(`chip_time`) = '$date' AND `employee_id` = '$employee_id'
         ORDER BY `chip_time` DESC;";
         
         $q = $this->db->query($query);
