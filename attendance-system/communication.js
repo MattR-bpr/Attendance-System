@@ -4,12 +4,12 @@ const output = document.getElementById("output");
 const chip = document.getElementById("chip");
 chip.addEventListener("click", async () => {
 
-    const fullName = document.getElementById("chip-full-name").value;
-    const chipType = document.getElementById("chip-type").value;
+    const employeeId = document.getElementById("chip-employee-id").value;
+    const chipTypeId = document.getElementById("chip-type-id").value;
 
     const data = new FormData();
-    data.append("full-name", fullName);
-    data.append("chip-type", chipType);
+    data.append("employee-id", employeeId);
+    data.append("chip-type-id", chipTypeId);
 
     const response = await fetch("/attendance-system/api/chip.php", {
         method: "POST",
@@ -27,11 +27,11 @@ chip.addEventListener("click", async () => {
 const view = document.getElementById("view");
 view.addEventListener("click", async () => {
 
-    const fullName = document.getElementById("view-full-name").value;
+    const employeeId = document.getElementById("view-employee-id").value;
     const date = document.getElementById("view-date").value;
 
     const data = new FormData();
-    data.append("full-name", fullName);
+    data.append("employee-id", employeeId);
     data.append("date", date);
 
     const response = await fetch("/attendance-system/api/view.php", {
