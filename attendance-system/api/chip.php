@@ -41,7 +41,7 @@ if (!(
     ($current_chip_type === 'D' && $last_chip_type !== 'D')
 ))
 {
-    echo('<strong>CHYBA: </strong> nemôžete zovliť tento typ čipnutia');
+    echo('<strong>CHYBA: </strong> nemôžete zvoliť tento typ čipnutia');
     exit(1);
 }
 
