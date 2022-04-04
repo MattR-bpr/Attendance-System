@@ -13,23 +13,23 @@ CREATE TABLE IF NOT EXISTS `attendance_system` (
   `record_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `employee_id` int(10) unsigned NOT NULL,
   `chip_time` datetime NOT NULL DEFAULT current_timestamp(),
-  `chip_type_id` int(10) unsigned NOT NULL,
+  `chip_type_id` char(1) NOT NULL,
   PRIMARY KEY (`record_id`) USING BTREE,
   KEY `employee_id` (`employee_id`),
   KEY `chip_type_id` (`chip_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `chip_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` char(1) NOT NULL,
   `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 REPLACE INTO `chip_types` (`id`, `value`) VALUES
-	(1, 'arrival'),
-	(2, 'departure'),
-	(3, 'lunch'),
-	(4, 'break');
+	('A', 'príchod'),
+	('B', 'prestávka'),
+	('D', 'odchod'),
+	('L', 'obed');
 
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -42,4 +42,4 @@ REPLACE INTO `employees` (`id`, `full_name`) VALUES
 ```
 
 ## Náhľad
-![preview](https://user-images.githubusercontent.com/54020396/161379557-c275a204-8093-43c7-bd81-3491ad89587e.png)
+![preview](https://user-images.githubusercontent.com/54020396/161595651-64e72b8a-1080-4c11-a96c-895d8c8d44f7.png)
