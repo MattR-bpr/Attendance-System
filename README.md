@@ -6,10 +6,31 @@ Na spojazdnenie budete potrebovať webový server, ktorý podporuje php (naprík
 Skopírujte priečinok `attendance-system` do priečinku s web stránkami na vašom webovom serveri.
 Spustite tento sql príkaz vo vašom databázovom klientovi, ktorý vytvorí potrebné tabuľky a dáta:
 ```sql
-CREATE DATABASE IF NOT EXISTS `school`;
-USE `school`;
+CREATE DATABASE `attendance_system`;
+USE `attendance_system`;
 
-CREATE TABLE IF NOT EXISTS `attendance_system` (
+CREATE TABLE `chip_types` (
+  `id` char(1) NOT NULL,
+  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `chip_types` (`id`, `value`) VALUES
+	('A', 'príchod'),
+	('B', 'prestávka'),
+	('D', 'odchod'),
+	('L', 'obed');
+
+CREATE TABLE `employees` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `employees` (`id`, `full_name`) VALUES
+	(1, 'Tester Testovač');
+
+CREATE TABLE `records` (
   `record_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `employee_id` int(10) unsigned NOT NULL,
   `chip_time` datetime NOT NULL DEFAULT current_timestamp(),
@@ -17,28 +38,7 @@ CREATE TABLE IF NOT EXISTS `attendance_system` (
   PRIMARY KEY (`record_id`) USING BTREE,
   KEY `employee_id` (`employee_id`),
   KEY `chip_type_id` (`chip_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `chip_types` (
-  `id` char(1) NOT NULL,
-  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-REPLACE INTO `chip_types` (`id`, `value`) VALUES
-	('A', 'príchod'),
-	('B', 'prestávka'),
-	('D', 'odchod'),
-	('L', 'obed');
-
-CREATE TABLE IF NOT EXISTS `employees` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
-REPLACE INTO `employees` (`id`, `full_name`) VALUES
-	(1, 'Tester Testovač');
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 ```
 
 ## Náhľad
