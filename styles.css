@@ -1,0 +1,30 @@
+:root {
+    --main-color: rgb(70, 70, 70);
+    --secondary-color: rgb(238, 181, 190);
+    --border-size: 0.1em;
+    --field-spacing: 1.5em;
+    --font: 'Courier New', Courier, monospace;
+    --font-size: 2em;
+    --table-spacing: 10px var(--field-spacing);
+}
+
+body {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    text-align: center;
+    font-family: var(--font);
+    font-size: var(--font-size);
+}
+
+fieldset {
+    border: var(--border-size) dashed var(--secondary-color);
+    margin: var(--field-spacing);
+    padding: var(--field-spacing);
+}
+
+table, tr, td, th {
+    border: var(--border-size) dashed var(--secondary-color);
+    border-collapse: collapse;
+    margin: auto;
+    padding: var(--table-spacing);
+}
