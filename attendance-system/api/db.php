@@ -9,7 +9,7 @@ class Database
         $host = 'localhost';
         $user = 'root';
         $password = '';
-        $database = 'school';
+        $database = 'attendance_system';
         
         $this->db = new mysqli($host, $user, $password, $database);
         $this->db->set_charset('utf8mb4');
@@ -89,7 +89,7 @@ class Database
         $employee_id = $this->db->real_escape_string($employee_id);
 
         $query = "SELECT chip_type_id AS `type`
-        FROM attendance_system
+        FROM records
         WHERE employee_id = $employee_id
         ORDER BY chip_time DESC
         LIMIT 1;";
@@ -106,7 +106,7 @@ class Database
         $employee_id = $this->db->real_escape_string($employee_id);
         $chip_type_id = $this->db->real_escape_string($chip_type_id);
         
-        $query = "INSERT INTO attendance_system
+        $query = "INSERT INTO records
         (
             `employee_id`,
             `chip_type_id`
@@ -129,9 +129,9 @@ class Database
             `full_name` AS `name`,
             `chip_time` AS `time`,
             `value` AS `chip-type`
-        FROM attendance_system
-            JOIN employees ON(attendance_system.`employee_id` = employees.`id`)
-            JOIN chip_types ON(attendance_system.`chip_type_id` = chip_types.`id`)
+        FROM records
+            JOIN employees ON(records.`employee_id` = employees.`id`)
+            JOIN chip_types ON(records.`chip_type_id` = chip_types.`id`)
         WHERE DATE(`chip_time`) = '$date' AND `employee_id` = '$employee_id'
         ORDER BY `chip_time` DESC;";
         

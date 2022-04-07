@@ -4,7 +4,7 @@
 require_once 'db.php';
 $db = new Database();
 
-// validacia mena
+// validacia id zamestnanca
 if (!(
     isset($_POST['employee-id']) &&
     !empty($_POST['employee-id']) &&

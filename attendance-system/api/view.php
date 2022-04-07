@@ -4,7 +4,7 @@
 require_once 'db.php';
 $db = new Database();
 
-// validacia mena
+// validacia id zamestnanca
 if (!(
     isset($_POST['employee-id']) &&
     !empty($_POST['employee-id']) &&
@@ -21,7 +21,7 @@ if (!(
     isset($_POST['date']) &&
     !empty($_POST['date']) &&
     is_string($_POST['date']) &&
-    preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST['date']) // skopirovane zo stackoverflow :)
+    preg_match('/(?:19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $_POST['date']) // skopirovane zo stackoverflow :)
 ))
 {
     echo('<strong>CHYBA: </strong> nevalidný formát dátumu');
