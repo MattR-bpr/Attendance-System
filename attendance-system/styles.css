@@ -16,6 +16,10 @@ body {
     font-size: var(--font-size);
 }
 
+hr {
+    border: var(--border-size) dashed var(--secondary-color);
+}
+
 fieldset {
     border: var(--border-size) dashed var(--secondary-color);
     margin: var(--field-spacing);

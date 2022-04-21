@@ -67,6 +67,37 @@ foreach ($employees as $employee)
             <input type="date" id="view-date" />
             <button id="view">zobraz záznamy zamestnanca</button>
         </fieldset>
+        <fieldset>
+            <legend>Čipnutie operácie</legend>
+            <select id="operation-employee-id">
+                <option value="">vyberte meno zamestnanca...</option>
+<?php
+
+foreach ($employees as $employee)
+{
+    $id = $employee['id'];
+    $name = $employee['name'];
+    echo("                <option value=\"$id\">($id) $name</option>\n");
+}
+
+?>
+            </select>
+            <select id="operation-type-id">
+                <option value="">vyberte typ operácie...</option>
+<?php
+
+$operation_types = $db->GetOperationTypes();
+foreach($operation_types as $operation_type)
+{
+    $id = $operation_type['id'];
+    $type = $operation_type['type'];
+    echo("                <option value=\"$id\">$type</option>\n");
+}
+
+?>
+            </select>
+            <button id="operation">čipni operáciu</button>
+        </fieldset>
         <output id="output"></output>
         <script>
             document.getElementById("view-date").valueAsDate = new Date();
