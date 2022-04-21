@@ -11,7 +11,7 @@ USE `attendance_system`;
 
 CREATE TABLE `chip_types` (
   `id` char(1) NOT NULL,
-  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `value` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -23,12 +23,31 @@ INSERT INTO `chip_types` (`id`, `value`) VALUES
 
 CREATE TABLE `employees` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `full_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `full_name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `employees` (`id`, `full_name`) VALUES
 	(1, 'Tester Testovač');
+
+CREATE TABLE `operations` (
+  `operaion_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `employee_id` int(10) unsigned NOT NULL,
+  `operation_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `operation_type_id` char(1) NOT NULL,
+  PRIMARY KEY (`operaion_id`),
+  KEY `employee_id` (`employee_id`),
+  KEY `operaion_type_id` (`operation_type_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `operation_types` (
+  `id` char(1) NOT NULL,
+  `value` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `operation_types` (`id`, `value`) VALUES
+	('T', 'Test');
 
 CREATE TABLE `records` (
   `record_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -38,7 +57,7 @@ CREATE TABLE `records` (
   PRIMARY KEY (`record_id`) USING BTREE,
   KEY `employee_id` (`employee_id`),
   KEY `chip_type_id` (`chip_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4;
 ```
 
 ## Náhľad
