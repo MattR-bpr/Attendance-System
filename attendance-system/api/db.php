@@ -84,6 +84,38 @@ class Database
         return $result['count'] > 0;
     }
 
+    public function GetOperationTypes()
+    {
+        $query = "SELECT
+            `id` as `id`,
+            `value` as `type`
+        FROM operation_types
+        ORDER BY `value`;";
+
+        $q = $this->db->query($query);
+        $types = [];
+        while ($type = $q->fetch_assoc())
+            $types[] = $type;
+        $q->free_result();
+
+        return $types;
+    }
+
+    public function OperationTypeExists($id)
+    {
+        $id = $this->db->real_escape_string($id);
+        
+        $query = "SELECT COUNT(*) AS `count`
+        FROM operation_types
+        WHERE `id` = '$id';";
+
+        $q = $this->db->query($query);
+        $result = $q->fetch_assoc();
+        $q->free_result();
+
+        return $result['count'] > 0;
+    }
+
     public function GetLastChipType($employee_id)
     {
         $employee_id = $this->db->real_escape_string($employee_id);
@@ -142,6 +174,25 @@ class Database
         $q->free_result();
 
         return $records;
+    }
+
+    public function ChipOperation($employee_id, $operation_type_id)
+    {
+        $employee_id = $this->db->real_escape_string($employee_id);
+        $operation_type_id = $this->db->real_escape_string($operation_type_id);
+        
+        $query = "INSERT INTO operations
+        (
+            `employee_id`,
+            `operation_type_id`
+        )
+        VALUES
+        (
+            '$employee_id',
+            '$operation_type_id'
+        );";
+        
+        $this->db->query($query);
     }
 }
 
