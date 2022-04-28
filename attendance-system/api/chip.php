@@ -1,52 +1,35 @@
 <?php
 
-// pripojenie na databazu
+// pripojenie na databázu
 require_once 'db.php';
 $db = new Database();
 
-// validacia id zamestnanca
+// validácia zamestnanca
 if (!(
-    isset($_POST['employee-id']) &&
-    !empty($_POST['employee-id']) &&
-    is_numeric($_POST['employee-id']) &&
-    $db->EmployeeExists($_POST['employee-id'])
+    isset($_POST['employee']) &&
+    !empty($_POST['employee']) &&
+    is_numeric($_POST['employee']) &&
+    $db->employee_exists($_POST['employee'])
 ))
 {
-    echo('<strong>CHYBA: </strong> nevalidné meno alebo zamestnanec neexistuje');
+    echo('<strong>CHYBA:</strong> nevalidný zamestnanec');
     exit(1);
 }
 
-// validacia typu cipnutia
+// validácia typu čipnutia
 if (!(
-    isset($_POST['chip-type-id']) &&
-    !empty($_POST['chip-type-id']) &&
-    is_string($_POST['chip-type-id']) &&
-    $db->ChipTypeExists($_POST['chip-type-id'])
+    isset($_POST['chip-type']) &&
+    !empty($_POST['chip-type']) &&
+    is_numeric($_POST['chip-type']) &&
+    $db->chip_type_exists($_POST['chip-type'])
 ))
 {
-    echo('<strong>CHYBA: </strong> nevalidný typ čipnutia alebo typ čipnutia neexistuje');
+    echo('<strong>CHYBA:</strong> nevalidný typ čipnutia');
     exit(1);
 }
 
-// validacia posledneho a tohto cipnutia
-$last_chip_type = $db->GetLastChipType($_POST['employee-id']);
-$current_chip_type = $_POST['chip-type-id'];
-if (!(
-    ($current_chip_type === 'A' && $last_chip_type === null) ||
-    ($current_chip_type === 'A' && $last_chip_type === 'D') ||
-    ($current_chip_type === 'A' && $last_chip_type === 'B') ||
-    ($current_chip_type === 'A' && $last_chip_type === 'L') ||
-    ($current_chip_type === 'B' && $last_chip_type === 'A') ||
-    ($current_chip_type === 'L' && $last_chip_type === 'A') ||
-    ($current_chip_type === 'D' && $last_chip_type !== 'D')
-))
-{
-    echo('<strong>CHYBA: </strong> nemôžete zvoliť tento typ čipnutia');
-    exit(1);
-}
-
-// zapisanie do databazy
-$db->Chip($_POST['employee-id'], $_POST['chip-type-id']);
-echo('boli ste čipnutý');
+// zapísanie do databázy
+$db->add_chip_record($_POST['employee'], $_POST['chip-type']);
+echo('čipnutie zaznamenané');
 
 ?>

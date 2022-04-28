@@ -20,178 +20,217 @@ class Database
         $this->db->close();
     }
 
-    public function GetEmployees()
+    public function get_employees()
     {
-        $query = "SELECT
-            `id` as `id`,
-            `full_name` as `name`
-        FROM employees
+        $query =
+        "SELECT
+            `id` AS `id`,
+            `full_name` AS `full_name`
+        FROM `employees`
         ORDER BY `full_name`;";
 
         $q = $this->db->query($query);
+        
         $employees = [];
         while ($employee = $q->fetch_assoc())
+        {
             $employees[] = $employee;
+        }
+        
         $q->free_result();
-
         return $employees;
     }
 
-    public function EmployeeExists($id)
+    public function employee_exists($id)
     {
         $id = $this->db->real_escape_string($id);
         
-        $query = "SELECT COUNT(*) AS `count`
-        FROM employees
-        WHERE `id` = '$id';";
+        $query =
+        "SELECT COUNT(*) AS `count`
+        FROM `employees`
+        WHERE `id` = $id;";
 
         $q = $this->db->query($query);
+        
         $result = $q->fetch_assoc();
+        
         $q->free_result();
-
         return $result['count'] > 0;
     }
 
-    public function GetChipTypes()
+    public function get_chip_types()
     {
-        $query = "SELECT
-            `id` as `id`,
-            `value` as `type`
-        FROM chip_types
-        ORDER BY `value`;";
+        $query =
+        "SELECT
+            `id` AS `id`,
+            `value` AS `value` 
+        FROM `chip_types`
+        ORDER BY `id`;";
 
         $q = $this->db->query($query);
-        $types = [];
-        while ($type = $q->fetch_assoc())
-            $types[] = $type;
+        
+        $chip_types = [];
+        while ($chip_type = $q->fetch_assoc())
+        {
+            $chip_types[] = $chip_type;
+        }
+        
         $q->free_result();
-
-        return $types;
+        return $chip_types;
     }
 
-    public function ChipTypeExists($id)
+    public function chip_type_exists($id)
     {
         $id = $this->db->real_escape_string($id);
         
-        $query = "SELECT COUNT(*) AS `count`
-        FROM chip_types
-        WHERE `id` = '$id';";
+        $query =
+        "SELECT COUNT(*) AS `count`
+        FROM `chip_types`
+        WHERE `id` = $id;";
 
         $q = $this->db->query($query);
+        
         $result = $q->fetch_assoc();
+        
         $q->free_result();
-
         return $result['count'] > 0;
     }
 
-    public function GetOperationTypes()
+    public function get_operation_types()
     {
-        $query = "SELECT
-            `id` as `id`,
-            `value` as `type`
-        FROM operation_types
-        ORDER BY `value`;";
+        $query =
+        "SELECT
+            `id` AS `id`,
+            `value` AS `value`
+        FROM `operation_types`
+        ORDER BY `id`;";
 
         $q = $this->db->query($query);
-        $types = [];
-        while ($type = $q->fetch_assoc())
-            $types[] = $type;
+        
+        $operation_types = [];
+        while ($operation_type = $q->fetch_assoc())
+        {
+            $operation_types[] = $operation_type;
+        }
+        
         $q->free_result();
-
-        return $types;
+        return $operation_types;
     }
 
-    public function OperationTypeExists($id)
+    public function operation_type_exists($id)
     {
         $id = $this->db->real_escape_string($id);
         
-        $query = "SELECT COUNT(*) AS `count`
-        FROM operation_types
-        WHERE `id` = '$id';";
+        $query =
+        "SELECT COUNT(*) AS `count`
+        FROM `operation_types`
+        WHERE `id` = $id;";
 
         $q = $this->db->query($query);
+        
         $result = $q->fetch_assoc();
+        
         $q->free_result();
-
         return $result['count'] > 0;
     }
 
-    public function GetLastChipType($employee_id)
+    public function get_chip_records($employee, $date)
     {
-        $employee_id = $this->db->real_escape_string($employee_id);
-
-        $query = "SELECT chip_type_id AS `type`
-        FROM records
-        WHERE employee_id = $employee_id
-        ORDER BY chip_time DESC
-        LIMIT 1;";
+        $employee = $this->db->real_escape_string($employee);
+        $date = $this->db->real_escape_string($date);
+        
+        $query =
+        "SELECT
+            `chip_records`.`id` AS `id`,
+            `employees`.`full_name` AS `full_name`,
+            `chip_records`.`time` AS `time`,
+            `chip_types`.`value` AS `chip_type`
+        FROM `chip_records`
+            JOIN `employees` ON `employees`.`id` = `chip_records`.`employee`
+            JOIN `chip_types` ON `chip_types`.`id` = `chip_records`.`chip_type`
+        WHERE
+            `chip_records`.`employee` = $employee AND DATE(`chip_records`.`time`) = '$date'
+        ORDER BY `chip_records`.`time` DESC;";
 
         $q = $this->db->query($query);
-        $result = $q->fetch_assoc();
+        
+        $chip_records = [];
+        while ($chip_record = $q->fetch_assoc())
+        {
+            $chip_records[] = $chip_record;
+        }
+        
         $q->free_result();
-
-        return $result ? $result['type'] : null;
+        return $chip_records;
     }
 
-    public function Chip($employee_id, $chip_type_id)
+    public function add_chip_record($employee, $chip_type)
     {
-        $employee_id = $this->db->real_escape_string($employee_id);
-        $chip_type_id = $this->db->real_escape_string($chip_type_id);
+        $employee = $this->db->real_escape_string($employee);
+        $chip_type = $this->db->real_escape_string($chip_type);
         
-        $query = "INSERT INTO records
+        $query =
+        "INSERT INTO `chip_records`
         (
-            `employee_id`,
-            `chip_type_id`
+            `employee`,
+            `chip_type`
         )
         VALUES
         (
-            '$employee_id',
-            '$chip_type_id'
+            $employee,
+            $chip_type
         );";
-        
+
         $this->db->query($query);
     }
 
-    public function GetRecords($employee_id, $date)
+    public function get_operation_records($employee, $date)
     {
-        $employee_id = $this->db->real_escape_string($employee_id);
+        $employee = $this->db->real_escape_string($employee);
         $date = $this->db->real_escape_string($date);
-
-        $query = "SELECT
-            `full_name` AS `name`,
-            `chip_time` AS `time`,
-            `value` AS `chip-type`
-        FROM records
-            JOIN employees ON(records.`employee_id` = employees.`id`)
-            JOIN chip_types ON(records.`chip_type_id` = chip_types.`id`)
-        WHERE DATE(`chip_time`) = '$date' AND `employee_id` = '$employee_id'
-        ORDER BY `chip_time` DESC;";
         
-        $q = $this->db->query($query);
-        $records = [];
-        while ($record = $q->fetch_assoc())
-            $records[] = $record;
-        $q->free_result();
+        $query =
+        "SELECT
+            `operation_records`.`id` AS `id`,
+            `employees`.`full_name` AS `full_name`,
+            `operation_records`.`time` AS `time`,
+            `operation_types`.`value` AS `operation_type`
+        FROM `operation_records`
+            JOIN `employees` ON `employees`.`id` = `operation_records`.`employee`
+            JOIN `operation_types` ON `operation_types`.`id` = `operation_records`.`operation_type`
+        WHERE
+            `operation_records`.`employee` = $employee AND DATE(`operation_records`.`time`) = '$date'
+        ORDER BY `operation_records`.`time` DESC;";
 
-        return $records;
+        $q = $this->db->query($query);
+        
+        $operation_records = [];
+        while ($operation_record = $q->fetch_assoc())
+        {
+            $operation_records[] = $operation_record;
+        }
+        
+        $q->free_result();
+        return $operation_records;
     }
 
-    public function ChipOperation($employee_id, $operation_type_id)
+    public function add_operation_record($employee, $operation_type)
     {
-        $employee_id = $this->db->real_escape_string($employee_id);
-        $operation_type_id = $this->db->real_escape_string($operation_type_id);
+        $employee = $this->db->real_escape_string($employee);
+        $operation_type = $this->db->real_escape_string($operation_type);
         
-        $query = "INSERT INTO operations
+        $query =
+        "INSERT INTO `operation_records`
         (
-            `employee_id`,
-            `operation_type_id`
+            `employee`,
+            `operation_type`
         )
         VALUES
         (
-            '$employee_id',
-            '$operation_type_id'
+            $employee,
+            $operation_type
         );";
-        
+
         $this->db->query($query);
     }
 }

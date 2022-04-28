@@ -1,35 +1,35 @@
 <?php
 
-// pripojenie na databazu
+// pripojenie na databázu
 require_once 'db.php';
 $db = new Database();
 
-// validacia id zamestnanca
+// validácia zamestnanca
 if (!(
-    isset($_POST['employee-id']) &&
-    !empty($_POST['employee-id']) &&
-    is_numeric($_POST['employee-id']) &&
-    $db->EmployeeExists($_POST['employee-id'])
+    isset($_POST['employee']) &&
+    !empty($_POST['employee']) &&
+    is_numeric($_POST['employee']) &&
+    $db->employee_exists($_POST['employee'])
 ))
 {
-    echo('<strong>CHYBA: </strong> nevalidné meno alebo zamestnanec neexistuje');
+    echo('<strong>CHYBA:</strong> nevalidný zamestnanec');
     exit(1);
 }
 
-// validacia typu operacie
+// validácia typu operácie
 if (!(
-    isset($_POST['operation-type-id']) &&
-    !empty($_POST['operation-type-id']) &&
-    is_string($_POST['operation-type-id']) &&
-    $db->OperationTypeExists($_POST['operation-type-id'])
+    isset($_POST['operation-type']) &&
+    !empty($_POST['operation-type']) &&
+    is_numeric($_POST['operation-type']) &&
+    $db->operation_type_exists($_POST['operation-type'])
 ))
 {
-    echo('<strong>CHYBA: </strong> nevalidný typ operácie alebo typ operácie neexistuje');
+    echo('<strong>CHYBA:</strong> nevalidný typ operácie');
     exit(1);
 }
 
-// zapisanie do databazy
-$db->ChipOperation($_POST['employee-id'], $_POST['operation-type-id']);
-echo('operácia bola zaznamenaná');
+// zapísanie do databázy
+$db->add_operation_record($_POST['employee'], $_POST['operation-type']);
+echo('operácia zaznamenaná');
 
 ?>
