@@ -1,6 +1,6 @@
 Order deny,allow
 Deny from all
 
-<FilesMatch "chip.php|view.php|operation.php">
+<FilesMatch "chip.php|chip-records.php|operation.php|operation-records.php">
     Allow from all
 </FilesMatch>
