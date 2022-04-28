@@ -4,12 +4,12 @@ const output = document.getElementById("output");
 const chip = document.getElementById("chip");
 chip.addEventListener("click", async () => {
 
-    const employeeId = document.getElementById("chip-employee-id").value;
-    const chipTypeId = document.getElementById("chip-type-id").value;
+    const employee = document.getElementById("chip-employee").value;
+    const chipType = document.getElementById("chip-type").value;
 
     const data = new FormData();
-    data.append("employee-id", employeeId);
-    data.append("chip-type-id", chipTypeId);
+    data.append("employee", employee);
+    data.append("chip-type", chipType);
 
     const response = await fetch("/attendance-system/api/chip.php", {
         method: "POST",
@@ -24,17 +24,17 @@ chip.addEventListener("click", async () => {
 });
 
 
-const view = document.getElementById("view");
-view.addEventListener("click", async () => {
+const chipRecords = document.getElementById("chip-records");
+chipRecords.addEventListener("click", async () => {
 
-    const employeeId = document.getElementById("view-employee-id").value;
-    const date = document.getElementById("view-date").value;
+    const employee = document.getElementById("chip-records-employee").value;
+    const date = document.getElementById("chip-records-date").value;
 
     const data = new FormData();
-    data.append("employee-id", employeeId);
+    data.append("employee", employee);
     data.append("date", date);
 
-    const response = await fetch("/attendance-system/api/view.php", {
+    const response = await fetch("/attendance-system/api/chip-records.php", {
         method: "POST",
         body: data
     });
@@ -47,12 +47,12 @@ view.addEventListener("click", async () => {
 const operation = document.getElementById("operation");
 operation.addEventListener("click", async () => {
 
-    const employeeId = document.getElementById("operation-employee-id").value;
-    const operationTypeId = document.getElementById("operation-type-id").value;
+    const employee = document.getElementById("operation-employee").value;
+    const operationType = document.getElementById("operation-type").value;
 
     const data = new FormData();
-    data.append("employee-id", employeeId);
-    data.append("operation-type-id", operationTypeId);
+    data.append("employee", employee);
+    data.append("operation-type", operationType);
 
     const response = await fetch("/attendance-system/api/operation.php", {
         method: "POST",
@@ -63,5 +63,25 @@ operation.addEventListener("click", async () => {
     setTimeout(() => {
         output.innerHTML = "";
     }, 2000);
+
+});
+
+
+const operationRecords = document.getElementById("operation-records");
+operationRecords.addEventListener("click", async () => {
+
+    const employee = document.getElementById("operation-records-employee").value;
+    const date = document.getElementById("operation-records-date").value;
+
+    const data = new FormData();
+    data.append("employee", employee);
+    data.append("date", date);
+
+    const response = await fetch("/attendance-system/api/operation-records.php", {
+        method: "POST",
+        body: data
+    });
+
+    output.innerHTML = await response.text();
 
 });
