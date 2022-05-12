@@ -1,28 +1,20 @@
 <?php
 
+require_once '../functions/db.php';
+require_once '../functions/validators.php';
+
 // pripojenie na databázu
-require_once 'db.php';
 $db = new Database();
 
-/// validácia zamestnanca
-if (!(
-    isset($_POST['employee']) &&
-    !empty($_POST['employee']) &&
-    is_numeric($_POST['employee']) &&
-    $db->employee_exists($_POST['employee'])
-))
+// validácia zamestnanca
+if (!employee_valid('employee'))
 {
     echo('<strong>CHYBA:</strong> nevalidný zamestnanec');
     exit(1);
 }
 
 // validácia datumu
-if (!(
-    isset($_POST['date']) &&
-    !empty($_POST['date']) &&
-    is_string($_POST['date']) &&
-    preg_match('/(?:19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $_POST['date']) // skopírované zo stackoverflow :)
-))
+if (!date_valid('date'))
 {
     echo('<strong>CHYBA:</strong> nevalidný dátum');
     exit(1);

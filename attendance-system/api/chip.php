@@ -1,30 +1,29 @@
 <?php
 
+require_once '../functions/db.php';
+require_once '../functions/validators.php';
+
 // pripojenie na databázu
-require_once 'db.php';
 $db = new Database();
 
 // validácia zamestnanca
-if (!(
-    isset($_POST['employee']) &&
-    !empty($_POST['employee']) &&
-    is_numeric($_POST['employee']) &&
-    $db->employee_exists($_POST['employee'])
-))
+if (!employee_valid('employee'))
 {
     echo('<strong>CHYBA:</strong> nevalidný zamestnanec');
     exit(1);
 }
 
 // validácia typu čipnutia
-if (!(
-    isset($_POST['chip-type']) &&
-    !empty($_POST['chip-type']) &&
-    is_numeric($_POST['chip-type']) &&
-    $db->chip_type_exists($_POST['chip-type'])
-))
+if (!chip_type_valid('chip-type'))
 {
     echo('<strong>CHYBA:</strong> nevalidný typ čipnutia');
+    exit(1);
+}
+
+// kontrola správnosti čipnutia
+if (!correct_chip_type($_POST['chip-type'], $db->get_previous_chip_type($_POST['employee'])))
+{
+    echo('<strongCHYBY:</strong> nesprávny typ čipnutia');
     exit(1);
 }
 

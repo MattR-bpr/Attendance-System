@@ -1,30 +1,29 @@
 <?php
 
+require_once '../functions/db.php';
+require_once '../functions/validators.php';
+
 // pripojenie na databázu
-require_once 'db.php';
 $db = new Database();
 
 // validácia zamestnanca
-if (!(
-    isset($_POST['employee']) &&
-    !empty($_POST['employee']) &&
-    is_numeric($_POST['employee']) &&
-    $db->employee_exists($_POST['employee'])
-))
+if (!employee_valid('employee'))
 {
     echo('<strong>CHYBA:</strong> nevalidný zamestnanec');
     exit(1);
 }
 
 // validácia typu operácie
-if (!(
-    isset($_POST['operation-type']) &&
-    !empty($_POST['operation-type']) &&
-    is_numeric($_POST['operation-type']) &&
-    $db->operation_type_exists($_POST['operation-type'])
-))
+if (!operation_type_valid('operation-type'))
 {
     echo('<strong>CHYBA:</strong> nevalidný typ operácie');
+    exit(1);
+}
+
+// kontrola správnosti operácie
+if (!correct_operation_type($_POST['operation-type'], $db->get_previous_operation_type($_POST['employee'])))
+{
+    echo('<strongCHYBY:</strong> nesprávny typ operácie');
     exit(1);
 }
 
