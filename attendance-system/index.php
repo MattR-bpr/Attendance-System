@@ -1,7 +1,8 @@
 <?php
 
+require_once 'functions/db.php';
+
 // pripojenie na databázu
-require_once 'api/db.php';
 $db = new Database();
 
 ?>
@@ -29,7 +30,7 @@ foreach ($employees as $employee)
 {
     $id = $employee['id'];
     $full_name = $employee['full_name'];
-    echo("                <option value=\"$id\">($id) $full_name</option>\n");
+    echo("                <option value=\"$id\">$full_name</option>\n");
 }
 
 ?>
@@ -61,7 +62,7 @@ foreach ($employees as $employee)
 {
     $id = $employee['id'];
     $full_name = $employee['full_name'];
-    echo("                <option value=\"$id\">($id) $full_name</option>\n");
+    echo("                <option value=\"$id\">$full_name</option>\n");
 }
 
 ?>
@@ -80,7 +81,7 @@ foreach ($employees as $employee)
 {
     $id = $employee['id'];
     $full_name = $employee['full_name'];
-    echo("                <option value=\"$id\">($id) $full_name</option>\n");
+    echo("                <option value=\"$id\">$full_name</option>\n");
 }
 
 ?>
@@ -112,7 +113,7 @@ foreach ($employees as $employee)
 {
     $id = $employee['id'];
     $full_name = $employee['full_name'];
-    echo("                <option value=\"$id\">($id) $full_name</option>\n");
+    echo("                <option value=\"$id\">$full_name</option>\n");
 }
 
 ?>
@@ -121,10 +122,31 @@ foreach ($employees as $employee)
             <button id="operation-records">zobraz záznamy operácií</button>
         </fieldset>
         
+        <fieldset>
+            <legend>Reporting</legend>
+            <select id="reporting-employee">
+                <option value="">vyberte meno zamestnanca...</option>
+<?php
+
+foreach ($employees as $employee)
+{
+    $id = $employee['id'];
+    $full_name = $employee['full_name'];
+    echo("                <option value=\"$id\">$full_name</option>\n");
+}
+
+?>
+            </select>
+            <input type="date" id="reporting-date" />
+            <button id="reporting">zobraz reporting</button>
+        </fieldset>
+
         <output id="output"></output>
         <script>
-            document.getElementById("chip-records-date").valueAsDate = new Date();
-            document.getElementById("operation-records-date").valueAsDate = new Date();
+            const date = new Date();
+            document.getElementById("chip-records-date").valueAsDate = date;
+            document.getElementById("operation-records-date").valueAsDate = date;
+            document.getElementById("reporting-date").valueAsDate = date;
         </script>
     </body>
 </html>

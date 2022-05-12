@@ -17,9 +17,6 @@ chip.addEventListener("click", async () => {
     });
     
     output.innerHTML = await response.text();
-    setTimeout(() => {
-        output.innerHTML = "";
-    }, 2000);
 
 });
 
@@ -60,9 +57,6 @@ operation.addEventListener("click", async () => {
     });
 
     output.innerHTML = await response.text();
-    setTimeout(() => {
-        output.innerHTML = "";
-    }, 2000);
 
 });
 
@@ -78,6 +72,26 @@ operationRecords.addEventListener("click", async () => {
     data.append("date", date);
 
     const response = await fetch("/attendance-system/api/operation-records.php", {
+        method: "POST",
+        body: data
+    });
+
+    output.innerHTML = await response.text();
+
+});
+
+
+const reporting = document.getElementById("reporting");
+reporting.addEventListener("click", async () => {
+
+    const employee = document.getElementById("reporting-employee").value;
+    const date = document.getElementById("reporting-date").value;
+
+    const data = new FormData();
+    data.append("employee", employee);
+    data.append("date", date);
+
+    const response = await fetch("/attendance-system/api/reporting.php", {
         method: "POST",
         body: data
     });
